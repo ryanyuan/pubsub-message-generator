@@ -19,15 +19,18 @@ def main(argv=None):
 
     publisher = pubsub_v1.PublisherClient()
     api_url = config["api_url"]
-    response = requests.post(api_url).json()
-    results = response["results"]
-    index = 0
-    while True:
-        index = 0 if index > len(results) - 1 else index
+    response = requests.post(api_url)
+    if response.status_code != 200:
+        print(f"Request failed. Response status code: {response.status_code}")
+    else:
+        results = response.json()["results"]
+        index = 0
+        while True:
+            index = 0 if index > len(results) - 1 else index
 
-        msg = str.encode(json.dumps(results[index]))
-        publisher.publish(topic_name, msg, spam="eggs")
-        print("Published message:", msg)
+            msg = str.encode(json.dumps(results[index]))
+            publisher.publish(topic_name, msg, spam="eggs")
+            print("Published message:", msg)
 
-        index += 1
-        time.sleep(randint(0, 20))
+            index += 1
+            time.sleep(randint(0, 10))

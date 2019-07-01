@@ -1,5 +1,5 @@
 ---
-api_url: 'https://apis.is/petrol'
+api_url: https://apis.is/petrol
 project_id: gcp-project
 topic: hello-world-1
 subscription: hello-world-sub1
